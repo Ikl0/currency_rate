@@ -12,9 +12,14 @@ class Currency < ApplicationRecord
       (1..30).each do |i|
         date = Date.today - i
         url = URI("https://www.cbr-xml-daily.ru/archive/#{date.year}/#{date.month}/#{date.day}/daily_json.js")
-        response = Net::HTTP.get(url)
-        data = JSON.parse(response)
-        rate = data["Valute"][currency_name]["Value"]
+
+        begin
+          response = Net::HTTP.get(url)
+          data = JSON.parse(response)
+          rate = data["Valute"][currency_name]["Value"]
+        rescue
+          rate = 0
+        end
 
         unless currency.exchange_rates.exists?(date: date)
           currency.exchange_rates.create(rate: rate, date: date)
