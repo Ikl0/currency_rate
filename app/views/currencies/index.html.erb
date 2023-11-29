@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Currency Exchange Rates</title>
+  <script src="https://d3js.org/d3.v5.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.css" rel="stylesheet">
+</head>
+<body>
+<div id="chart"></div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var chart = c3.generate({
+            bindto: '#chart',
+            data: {
+                x: 'x',
+                columns: [
+                    ['x', <%= @dates %>],
+                    <% @currencies.each do |currency| %>
+                    ['<%= currency.name %>', <%= currency.exchange_rates.last(30).map(&:rate) %>],
+                    <% end %>
+                ]
+            },
+            axis: {
+                x: {
+                    type: 'timeseries',
+                    tick: {
+                        format: '%Y-%m-%d'
+                    }
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
