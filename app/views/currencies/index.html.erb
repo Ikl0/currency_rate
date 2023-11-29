@@ -16,9 +16,9 @@
             data: {
                 x: 'x',
                 columns: [
-                    ['x', <%= @dates %>],
+                    ['x', <%= raw @dates.map { |date| "'#{date}'" }.join(', ') %>],
                     <% @currencies.each do |currency| %>
-                    ['<%= currency.name %>', <%= currency.exchange_rates.last(30).map(&:rate) %>],
+                    ['<%= currency.name %>', <%= currency.exchange_rates.last(30).map(&:rate).join(', ') %>],
                     <% end %>
                 ]
             },
@@ -33,5 +33,4 @@
         });
     });
 </script>
-</body>
-</html>
+
