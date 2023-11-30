@@ -30,6 +30,11 @@ gem "bootsnap", require: false
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem 'rspec-rails', '~> 6.1.0'
+  gem 'shoulda-matchers'
+  gem 'factory_bot_rails'
+  gem 'webmock', require: false
+
+  gem 'simplecov', require: false
 end
 
 group :development do
