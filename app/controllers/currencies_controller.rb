@@ -8,17 +8,12 @@ class CurrenciesController < ActionController::Base
     @dates = @currencies.first.exchange_rates.last(30).map(&:date)
   end
 
-  def show
-    @currency = Currency.find(params[:id])
-  end
-
-  def create
-    @currency = Currency.fetch_exchange_rates
-
-    if @currency.save
-      render json: @currency, status: :created
-    else
-      render json: { errors: [@currency.errors] }, status: :unprocessable_entity
-    end
+  def weekly_rates
+    @currencies = Currency.all
+    @weeks = 4.times.map do |i|
+      start_date = (i+1).weeks.ago.at_beginning_of_week - 2.days
+      end_date = (i+1).weeks.ago.at_end_of_week - 1.day
+      [start_date, end_date]
+    end.reverse
   end
 end
