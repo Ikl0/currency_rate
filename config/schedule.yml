@@ -1,0 +1,4 @@
+currency_worker:
+  cron: "0 14 * * *"
+  class: "CurrencyWorker"
+  queue: default
