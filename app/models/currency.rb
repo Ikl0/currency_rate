@@ -5,27 +5,18 @@ class Currency < ApplicationRecord
   has_many :exchange_rates, dependent: :destroy
   validates :name, presence: true, uniqueness: true
 
-  def self.update_exchange_rates
-    %w[USD EUR CNY].each do |currency_name|
-      currency = find_or_create_by(name: currency_name)
-      date = Date.today
+  def self.update_exchange_rates(date = Date.today)
+    self.all.each do |currency|
       url = URI("https://www.cbr-xml-daily.ru/archive/#{date.year}/#{date.strftime('%m')}/#{date.strftime('%d')}/daily_json.js")
+      response = Net::HTTP.get_response(url)
 
-      begin
-        response = Net::HTTP.get(url)
-        data = JSON.parse(response)
-        if data["Valute"] && data["Valute"][currency_name]
-          rate = data["Valute"][currency_name]["Value"]
-        else
-          rate = 0
-        end
-      rescue
-        rate = 0
-      end
-
-      unless currency.exchange_rates.exists?(date: date)
-        currency.exchange_rates.create(rate: rate, date: date)
-      end
+      rate = if response.code == "404" # if exchange rate is not found(it always not found for sunday, monday and sometimes for tuesday)
+              currency.exchange_rates.where("date < '#{date}'").order(date: :desc).first&.rate
+             else
+              data = JSON.parse(response.body)
+              data.dig("Valute", currency.name, "Value" )
+             end
+      currency.exchange_rates.find_or_create_by(rate: rate, date: date)
     end
   end
 end
