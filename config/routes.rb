@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  get "up" => "rails/health#show", as: :rails_health_check
-  resources :currencies, only: [:index]
+  resources :currencies, only: [:index, :show] do
+    collection do
+      get :weekly_rates
+    end
+  end
   root "currencies#index"
 end
