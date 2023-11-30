@@ -6,17 +6,21 @@ class Currency < ApplicationRecord
   validates :name, presence: true, uniqueness: true
 
   def self.update_exchange_rates
-    ["USD", "EUR", "CNY"].each do |currency_name|
+    %w[USD EUR CNY].each do |currency_name|
       currency = find_or_create_by(name: currency_name)
 
       (1..30).each do |i|
         date = Date.today - i
-        url = URI("https://www.cbr-xml-daily.ru/archive/#{date.year}/#{date.month}/#{date.day}/daily_json.js")
+        url = URI("https://www.cbr-xml-daily.ru/archive/#{date.year}/#{date.strftime('%m')}/#{date.strftime('%d')}/daily_json.js")
 
         begin
           response = Net::HTTP.get(url)
           data = JSON.parse(response)
-          rate = data["Valute"][currency_name]["Value"]
+          if data["Valute"] && data["Valute"][currency_name]
+            rate = data["Valute"][currency_name]["Value"]
+          else
+            rate = 0
+          end
         rescue
           rate = 0
         end
