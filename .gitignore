@@ -36,3 +36,6 @@
 
 #Ignore redis snapshot file
 dump.rdb
+
+#Ignore coverage lib
+coverage
