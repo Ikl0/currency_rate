@@ -1,44 +1,45 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-ruby "3.2.2"
+source 'https://rubygems.org'
 
-gem "rails", "~> 7.1.2"
+ruby '3.2.2'
 
-gem "sprockets-rails"
+gem 'rails', '~> 7.1.2'
 
-gem "pg", "~> 1.1"
+gem 'sprockets-rails'
 
-gem "puma", ">= 5.0"
+gem 'pg', '~> 1.1'
 
-gem "importmap-rails"
+gem 'puma', '>= 5.0'
 
-gem "turbo-rails"
+gem 'importmap-rails'
 
-gem "stimulus-rails"
+gem 'turbo-rails'
 
-gem "jbuilder"
+gem 'stimulus-rails'
+
+gem 'jbuilder'
 
 gem 'sidekiq', '~> 7.2'
 gem 'sidekiq-cron', '~> 1.11'
 
-gem "redis", ">= 4.0.1"
+gem 'redis', '>= 4.0.1'
 
-gem "tzinfo-data", platforms: %i[ windows jruby ]
+gem 'tzinfo-data', platforms: %i[windows jruby]
 
-gem "bootsnap", require: false
+gem 'bootsnap', require: false
 
 group :development, :test do
-  gem "debug", platforms: %i[ mri windows ]
-  gem 'rspec-rails', '~> 6.1.0'
-  gem 'shoulda-matchers'
-  gem 'rails-controller-testing'
+  gem 'debug', platforms: %i[mri windows]
   gem 'factory_bot_rails'
-  gem 'webmock', require: false
-
+  gem 'rails-controller-testing'
+  gem 'rspec-rails', '~> 6.1.0'
+  gem 'rubocop', require: false
+  gem 'shoulda-matchers'
   gem 'simplecov', require: false
+  gem 'webmock', require: false
 end
 
 group :development do
-  gem "web-console"
+  gem 'web-console'
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExchangeRate < ApplicationRecord
   belongs_to :currency
   validates :rate, :date, presence: true

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 %w[USD EUR CNY].each do |currency_name|
   Currency.create(name: currency_name)
 end

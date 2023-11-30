@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CurrencyWorker
   include Sidekiq::Worker
 

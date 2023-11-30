@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe CurrenciesController, type: :controller do
   let!(:currency) { create(:currency) }
-  let!(:exchange_rate) { create(:exchange_rate, currency: currency) }
+  let!(:exchange_rate) { create(:exchange_rate, currency:) }
 
   describe 'GET #index' do
     before { get :index }

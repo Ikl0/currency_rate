@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateExchangeRates < ActiveRecord::Migration[7.1]
   def change
     create_table :exchange_rates do |t|
@@ -6,6 +8,6 @@ class CreateExchangeRates < ActiveRecord::Migration[7.1]
       t.date :date, null: false
       t.timestamps
     end
-    add_index :exchange_rates, [:currency_id, :date], unique: true
+    add_index :exchange_rates, %i[currency_id date], unique: true
   end
 end
