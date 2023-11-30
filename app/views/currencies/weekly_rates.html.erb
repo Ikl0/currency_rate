@@ -1,0 +1,28 @@
+<table>
+  <thead>
+  <tr>
+    <th>Валюта</th>
+    <% @weeks.each do |week| %>
+      <th><%= (week.first + 2.days).strftime('%d.%m') %> - <%= (week.last + 1.day).strftime('%d.%m') %></th>
+    <% end %>
+  </tr>
+  </thead>
+  <tbody>
+  <% @currencies.each do |currency| %>
+    <tr>
+      <td><%= currency.name %></td>
+      <% @weeks.each do |week| %>
+        <% rate_start = currency.exchange_rates.find_by(date: week.first)&.rate %>
+        <% rate_end = currency.exchange_rates.find_by(date: week.last)&.rate %>
+        <td>
+          <% if rate_start && rate_end %>
+            <%= rate_end.round(2) %>₽ (<%= ((rate_end - rate_start) / rate_start * 100).round(2) %>%)
+          <% else %>
+            N/A
+          <% end %>
+        </td>
+      <% end %>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
