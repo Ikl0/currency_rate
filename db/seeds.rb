@@ -1,9 +1,22 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+Currency.all.each do |currency|
+  (1..30).each do |i|
+    date = Date.today - i
+    url = URI("https://www.cbr-xml-daily.ru/archive/#{date.year}/#{date.strftime('%m')}/#{date.strftime('%d')}/daily_json.js")
+
+    begin
+      response = Net::HTTP.get(url)
+      data = JSON.parse(response)
+      if data["Valute"] && data["Valute"][currency.name]
+        rate = data["Valute"][currency.name]["Value"]
+      else
+        rate = 0
+      end
+    rescue
+      rate = 0
+    end
+
+    unless currency.exchange_rates.exists?(date: date)
+      currency.exchange_rates.create(rate: rate, date: date)
+    end
+  end
+end
