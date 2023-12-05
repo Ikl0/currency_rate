@@ -39,3 +39,6 @@ dump.rdb
 
 #Ignore coverage lib
 coverage
+
+#Ignore iml files
+*.iml
