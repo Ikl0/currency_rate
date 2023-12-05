@@ -31,6 +31,8 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 
 gem 'bootsnap', require: false
 
+gem 'concurrent-ruby', '~> 1.2', '>= 1.2.2'
+
 group :development, :test do
   gem 'debug', platforms: %i[mri windows]
   gem 'factory_bot_rails'
