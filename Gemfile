@@ -18,6 +18,8 @@ gem 'turbo-rails'
 
 gem 'stimulus-rails'
 
+gem 'sassc-rails'
+
 gem 'jbuilder'
 
 gem 'sidekiq', '~> 7.2'
